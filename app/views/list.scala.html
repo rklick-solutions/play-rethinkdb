@@ -50,8 +50,6 @@
 					<tr>
 						@header(2, "Name")
 					 	@header(3, "Address") 
-					 	@header(4, "Date of Birth")
-						@header(5, "Joining Date") 
 						@header(6, "Designation")
 					</tr>
 				</thead>
@@ -61,8 +59,6 @@
 					<tr>
 						<td><a href="@routes.Application.edit(employee.id)">@employee.name</a></td>
 						<td>@employee.address</td>
-						<td>@employee.dob.format("dd MMM yyyy")</td>
-						<td>@employee.joiningDate.format("dd MMM yyyy")</td>
 						<td>@employee.designation</td>
 					</tr>
 					}
