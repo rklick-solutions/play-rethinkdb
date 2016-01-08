@@ -3,10 +3,11 @@ package controllers
 import java.util.UUID
 import javax.inject.Inject
 
-import models.{EmployeeDAO, Employee, Page}
+import models.dao.EmployeeDAO
+import models.domains.Employee
 import play.api.Logger
 import play.api.data.Form
-import play.api.data.Forms.{date, ignored, mapping, nonEmptyText}
+import play.api.data.Forms.{ignored, mapping, nonEmptyText}
 import play.api.i18n.MessagesApi
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc.{Action, Controller}
@@ -15,13 +16,13 @@ import views.html
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{Future, TimeoutException}
 
-class Application@Inject() (empDAO: EmployeeDAO, val messagesApi: MessagesApi) extends Controller {
+class Application @Inject()(empDAO: EmployeeDAO, val messagesApi: MessagesApi) extends Controller {
 
   implicit val timeout = 10.seconds
 
   /**
-   * Describe the employee form (used in both edit and create screens).
-   */
+    * Describe the employee form (used in both edit and create screens).
+    */
   val employeeForm = Form(
     mapping(
       "id" -> ignored(UUID.randomUUID().toString),
@@ -30,31 +31,24 @@ class Application@Inject() (empDAO: EmployeeDAO, val messagesApi: MessagesApi) e
       "designation" -> nonEmptyText)(Employee.apply)(Employee.unapply))
 
   /**
-   * Handle default path requests, redirect to employee list
-   */
-  def index = Action { Home }
+    * Handle default path requests, redirect to employee list
+    */
+  def index = Action {
+    Home
+  }
 
   /**
-   * This result directly redirect to the application home.
-   */
+    * This result directly redirect to the application home.
+    */
   val Home = Redirect(routes.Application.list())
 
   /**
-   * Display the paginated list of employees.
-   *
-   * @param page Current page number (starts from 0)
-   * @param orderBy Column to be sorted
-   * @param filter Filter applied on employee names
-   */
-  def list(page: Int, orderBy: Int, filter: String) = Action.async { implicit request =>
-    val futurePage = empDAO.list()/*if (filter.length > 0) {
-      collection.find(Json.obj("name" -> filter)).cursor[Employee]().collect[List]()
-    } else collection.genericQueryBuilder.cursor[Employee]().collect[List]()*/
-
-    futurePage.map({ employees =>
+    * Display the list of employees.
+    */
+  def list() = Action.async { implicit request =>
+    empDAO.findAll().map({ employees =>
       implicit val msg = messagesApi.preferred(request)
-
-      Ok(html.list(Page(List(employees), 0, 10, 20), orderBy, filter))
+      Ok(html.list(employees))
     }).recover {
       case t: TimeoutException =>
         Logger.error("Problem found in employee list process")
@@ -63,88 +57,89 @@ class Application@Inject() (empDAO: EmployeeDAO, val messagesApi: MessagesApi) e
   }
 
   /**
-   * Display the 'edit form' of a existing Employee.
-   *
-   * @param id Id of the employee to edit
-   */
+    * Display the 'edit form' of a existing Employee.
+    *
+    * @param id Id of the employee to edit
+    */
   def edit(id: String) = Action.async { request =>
-    /*val futureEmp = collection.find(Json.obj("_id" -> Json.obj("$oid" -> id))).cursor[Employee]().collect[List]()
-    futureEmp.map { emps: List[Employee] =>
-      implicit val msg = messagesApi.preferred(request)
+    val result = for {
+      emp <- empDAO.findById(id)
+    } yield {
+      emp.map { emp =>
+        implicit val msg = messagesApi.preferred(request)
+        Ok(html.editForm(id, employeeForm.fill(emp)))
+      }.getOrElse(Home.flashing("success" -> s"Employee not found"))
+    }
 
-      Ok(html.editForm(id, employeeForm.fill(emps.head)))
-    }.recover {
+    result.map(res => res).recover {
       case t: TimeoutException =>
         Logger.error("Problem found in employee edit process")
         InternalServerError(t.getMessage)
-    }*/
-    Future(Home.flashing("success" -> s"Employee has been created"))
+    }
   }
 
   /**
-   * Handle the 'edit form' submission
-   *
-   * @param id Id of the employee to edit
-   */
+    * Handle the 'edit form' submission
+    *
+    * @param id Id of the employee to edit
+    */
   def update(id: String) = Action.async { implicit request =>
-    /*employeeForm.bindFromRequest.fold(
-    { formWithErrors =>
-      implicit val msg = messagesApi.preferred(request)
-      Future.successful(BadRequest(html.editForm(id, formWithErrors)))
-    },
-    employee => {
-      val futureUpdateEmp = collection.update(Json.obj("_id" -> Json.obj("$oid" -> id)), employee.copy(_id = BSONObjectID(id)))
-      futureUpdateEmp.map { result =>
-        Home.flashing("success" -> s"Employee ${employee.name} has been updated")
-      }.recover {
-        case t: TimeoutException =>
-          Logger.error("Problem found in employee update process")
-          InternalServerError(t.getMessage)
-      }
-    })*/
-    Future(Home.flashing("success" -> s"Employee has been created"))
+    employeeForm.bindFromRequest.fold(
+      { formWithErrors =>
+        implicit val msg = messagesApi.preferred(request)
+        Future.successful(BadRequest(html.editForm(id, formWithErrors)))
+      },
+      employee => {
+        val futureUpdateEmp = empDAO.update(id, employee)
+        futureUpdateEmp.map { result =>
+          Home.flashing("success" -> s"Employee ${employee.name} has been updated")
+        }.recover {
+          case t: TimeoutException =>
+            Logger.error("Problem found in employee update process")
+            InternalServerError(t.getMessage)
+        }
+      })
   }
 
   /**
-   * Display the 'new employee form'.
-   */
+    * Display the 'new employee form'.
+    */
   def create = Action { request =>
     implicit val msg = messagesApi.preferred(request)
     Ok(html.createForm(employeeForm))
   }
 
   /**
-   * Handle the 'new employee form' submission.
-   */
+    * Handle the 'new employee form' submission.
+    */
   def save = Action.async { implicit request =>
     employeeForm.bindFromRequest.fold(
-    { formWithErrors =>
-      implicit val msg = messagesApi.preferred(request)
-      Future.successful(BadRequest(html.createForm(formWithErrors)))
-    },
-    employee => {
-      val futureUpdateEmp = empDAO.create(employee)
-      futureUpdateEmp.map { result =>
-        Home.flashing("success" -> s"Employee ${employee.name} has been created")
-      }.recover {
-        case t: TimeoutException =>
-          Logger.error("Problem found in employee update process")
-          InternalServerError(t.getMessage)
-      }
-    })
+      { formWithErrors =>
+        implicit val msg = messagesApi.preferred(request)
+        Future.successful(BadRequest(html.createForm(formWithErrors)))
+      },
+      employee => {
+        val futureUpdateEmp = empDAO.create(employee)
+        futureUpdateEmp.map { result =>
+          Home.flashing("success" -> s"Employee ${employee.name} has been created")
+        }.recover {
+          case t: TimeoutException =>
+            Logger.error("Problem found in employee update process")
+            InternalServerError(t.getMessage)
+        }
+      })
   }
 
   /**
-   * Handle employee deletion.
-   */
+    * Handle employee deletion.
+    */
   def delete(id: String) = Action.async {
-    /*val futureInt = collection.remove(Json.obj("_id" -> Json.obj("$oid" -> id)), firstMatchOnly = true)
-    futureInt.map(i => Home.flashing("success" -> "Employee has been deleted")).recover {
+    val futureResult = Future.successful(empDAO.deleteById(id))
+    futureResult.map(i => Home.flashing("success" -> "Employee has been deleted")).recover {
       case t: TimeoutException =>
         Logger.error("Problem deleting employee")
         InternalServerError(t.getMessage)
-    }*/
-    Future(Home.flashing("success" -> s"Employee has been created"))
+    }
   }
 
 }

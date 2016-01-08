@@ -1,5 +1,5 @@
 // The Play plugin
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.4.3")
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.4.6")
 
 //Idea plugin
 addSbtPlugin("com.github.mpeltonen" % "sbt-idea" % "1.5.2")

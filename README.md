@@ -1,2 +1,11 @@
-# playing-rethinkdb
-This activator project describes a classic CRUD application with Play 2.4.x, Scala and RethinkDB(rethink-scala: Scala Driver for RethinkDB).
+```
+        _                _                                  _    _      _         _        _  _     
+ _ __  | |  __ _  _   _ (_) _ __    __ _         _ __  ___ | |_ | |__  (_) _ __  | | __ __| || |__  
+| '_ \ | | / _` || | | || || '_ \  / _` | _____ | '__|/ _ \| __|| '_ \ | || '_ \ | |/ // _` || '_ \ 
+| |_) || || (_| || |_| || || | | || (_| ||_____|| |  |  __/| |_ | | | || || | | ||   <| (_| || |_) |
+| .__/ |_| \__,_| \__, ||_||_| |_| \__, |       |_|   \___| \__||_| |_||_||_| |_||_|\_\\__,_||_.__/ 
+|_|               |___/            |___/                                                            
+
+This activator project describes a classic CRUD application with Play 2.4.x, Scala and RethinkDB
+```
+
