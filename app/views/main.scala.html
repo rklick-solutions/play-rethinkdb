@@ -9,7 +9,9 @@
         
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" media="screen" href="@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap.min.css"))">
-		
+		<link rel="stylesheet" media="screen" href="@routes.WebJarAssets.at(WebJarAssets.locate("footable.core.css"))">
+		<link rel="stylesheet" media="screen" href="@routes.WebJarAssets.at(WebJarAssets.locate("footable.metro.css"))">
+
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
         
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -28,9 +30,7 @@
 
 	    <div id="footer">
 	      <div class="container">
-			<p class="text-muted">Play includes a simple data access layer
-				called Anorm that uses plain SQL to interact with the database and
-				provides an API to parse and transform the resulting datasets.</p>
+			<p class="text-muted">This activator project describes a classic CRUD application with Play 2.4.x, Scala and RethinkDB</p>
 		</div>
 	    </div>
         
@@ -41,5 +41,13 @@
 	    
 	    <!-- Latest compiled and minified JavaScript -->
 		<script src="@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap.min.js"))"></script>
+
+		<script src="@routes.WebJarAssets.at(WebJarAssets.locate("footable.all.min.js"))"></script>
+
+		<script type="text/javascript">
+		$(function () {
+			$('.footable').footable();
+		});
+		</script>
     </body>
 </html>

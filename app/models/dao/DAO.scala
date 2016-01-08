@@ -67,7 +67,7 @@ trait DAO extends AppLogger {
     * @return
     */
   def updateById(id: String, obj: MapObject): Either[String, Boolean] = tryCatchEither {
-    table.get(id).update(obj).run[util.HashMap[String, Object]](conn).get(REPLACED).asInstanceOf[Int] > COUNT
+    table.get(id).update(obj).run[util.HashMap[String, Object]](conn).get(REPLACED).asInstanceOf[Long] > COUNT
   }
 
   /**
@@ -78,7 +78,7 @@ trait DAO extends AppLogger {
     * @return
     */
   def updateByCriteria(criteria: MapObject, obj: MapObject): Either[String, Boolean] = tryCatchEither {
-    table.filter(criteria).update(obj).run[util.HashMap[String, Object]](conn).get(REPLACED).asInstanceOf[Int] > COUNT
+    table.filter(criteria).update(obj).run[util.HashMap[String, Object]](conn).get(REPLACED).asInstanceOf[Long] > COUNT
   }
 
   /**
@@ -88,7 +88,7 @@ trait DAO extends AppLogger {
     * @return
     */
   def deleteById(id: String): Either[String, Boolean] = tryCatchEither {
-    table.get(id).delete().run[util.HashMap[String, Object]](conn).get(DELETED).asInstanceOf[Int] > COUNT
+    table.get(id).delete().run[util.HashMap[String, Object]](conn).get(DELETED).asInstanceOf[Long] > COUNT
   }
 
   /**
@@ -98,7 +98,7 @@ trait DAO extends AppLogger {
     * @return
     */
   def deleteByCriteria(criteria: MapObject): Either[String, Boolean] = tryCatchEither {
-    table.filter(criteria).delete().run[util.HashMap[String, Object]](conn).get(DELETED).asInstanceOf[Int] > COUNT
+    table.filter(criteria).delete().run[util.HashMap[String, Object]](conn).get(DELETED).asInstanceOf[Long] > COUNT
   }
 
   /**
