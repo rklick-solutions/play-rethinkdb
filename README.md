@@ -1,10 +1,12 @@
 ```
-        _                _                                  _    _      _         _        _  _     
- _ __  | |  __ _  _   _ (_) _ __    __ _         _ __  ___ | |_ | |__  (_) _ __  | | __ __| || |__  
-| '_ \ | | / _` || | | || || '_ \  / _` | _____ | '__|/ _ \| __|| '_ \ | || '_ \ | |/ // _` || '_ \ 
-| |_) || || (_| || |_| || || | | || (_| ||_____|| |  |  __/| |_ | | | || || | | ||   <| (_| || |_) |
-| .__/ |_| \__,_| \__, ||_||_| |_| \__, |       |_|   \___| \__||_| |_||_||_| |_||_|\_\\__,_||_.__/ 
-|_|               |___/            |___/                                                            
+        _                                    _    _      _         _         _  _     
+       | |                                  | |  | |    (_)       | |       | || |    
+ _ __  | |  __ _  _   _  ______  _ __   ___ | |_ | |__   _  _ __  | | __  __| || |__  
+| '_ \ | | / _` || | | ||______|| '__| / _ \| __|| '_ \ | || '_ \ | |/ / / _` || '_ \ 
+| |_) || || (_| || |_| |        | |   |  __/| |_ | | | || || | | ||   < | (_| || |_) |
+| .__/ |_| \__,_| \__, |        |_|    \___| \__||_| |_||_||_| |_||_|\_\ \__,_||_.__/ 
+| |                __/ |                                                              
+|_|               |___/                                                               
 
 This activator project describes a classic CRUD application with Play 2.4.x, Scala and RethinkDB
 ```
@@ -62,13 +64,13 @@ Please check [RConnection.scala](app/models/rdb/RConnection.scala) and [RDatabas
 -----------------------------------------------------------------------
 ### Now Play
 -----------------------------------------------------------------------
-* The Github code for the project is at : [playing-rethinkdb](https://github.com/anand-singh/playing-rethinkdb)
+* The Github code for the project is at : [play-rethinkdb](https://github.com/rklick-solutions/play-rethinkdb)
 * Clone the project into local system
 * To run the Play framework 2.4.x, you need JDK 8 or later
 * Install Typesafe Activator if you do not have it already. You can get it from here: http://www.playframework.com/download
 * Execute `activator clean compile` to build the product
 * Execute `activator run` to execute the product
-* Employee-Self-Service should now be accessible at localhost:9000
+* play-rethinkdb should now be accessible at localhost:9000
 
 -----------------------------------------------------------------------
 ### References

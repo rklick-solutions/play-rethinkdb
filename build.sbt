@@ -1,7 +1,7 @@
 import play.routes.compiler.InjectedRoutesGenerator
 import play.sbt.PlayScala
 
-name := """playing-rethinkdb"""
+name := """play-rethinkdb"""
 
 version := "1.0-SNAPSHOT"
 
