@@ -37,7 +37,7 @@
     <li>Installing the Java driver : <a href="http://rethinkdb.com/docs/install-drivers/java/">rethinkdb-driver</a></li>
     <li>Ten-minute guide with RethinkDB and Java : <a href="http://rethinkdb.com/docs/guide/java/">RethinkDB Java</a></li>
     <li>Start RethinkDB using <code>rethinkdb</code> command and hit <code>http://localhost:8080/</code></li>
-    <li>Create <code>playing_rethinkdb</code> database and table <code>r_employees</code> with default configuration</li>
+    <li>Create <code>play_rethinkdb</code> database and table <code>r_employees</code> with default configuration</li>
 </ul>
 
 <h5><a aria-hidden="true" href="#usage-of-rethinkdb-java-driver" class="anchor" id="user-content-usage-of-rethinkdb-java-driver"><span class="octicon octicon-link"></span></a>Usage of RethinkDB Java driver</h5>
@@ -59,7 +59,7 @@
     r.table("tv_shows").insert(r.hashMap("name", "Star Trek TNG")).run(conn);
 </code></pre>
 
-<p>Please check <a href="/anand-singh/playing-rethinkdb/blob/master/app/models/rdb/RConnection.scala">RConnection.scala</a> and <a href="/anand-singh/playing-rethinkdb/blob/master/app/models/rdb/RDatabase.scala">RDatabase.scala</a></p>
+<p>Please check <a href="/rklick-solutions/play-rethinkdb/blob/master/app/models/rdb/RConnection.scala">RConnection.scala</a> and <a href="/rklick-solutions/play-rethinkdb/blob/master/app/models/rdb/RDatabase.scala">RDatabase.scala</a></p>
 
 <hr>
 
@@ -68,13 +68,13 @@
 <hr>
 
 <ul>
-    <li>The Github code for the project is at : <a href="https://github.com/anand-singh/playing-rethinkdb">playing-rethinkdb</a></li>
+    <li>The Github code for the project is at : <a href="https://github.com/rklick-solutions/play-rethinkdb">play-rethinkdb</a></li>
     <li>Clone the project into local system</li>
     <li>To run the Play framework 2.4.x, you need JDK 8 or later</li>
     <li>Install Typesafe Activator if you do not have it already. You can get it from here: <a href="http://www.playframework.com/download">http://www.playframework.com/download</a></li>
     <li>Execute <code>activator clean compile</code> to build the product</li>
     <li>Execute <code>activator run</code> to execute the product</li>
-    <li>Employee-Self-Service should now be accessible at localhost:9000</li>
+    <li>play-rethinkdb should now be accessible at localhost:9000</li>
 </ul>
 
 <hr>

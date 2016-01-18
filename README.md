@@ -39,7 +39,7 @@ libraryDependencies += "com.rethinkdb" % "rethinkdb-driver" % "2.2-beta-1"
 * Installing the Java driver : [rethinkdb-driver](http://rethinkdb.com/docs/install-drivers/java/)
 * Ten-minute guide with RethinkDB and Java : [RethinkDB Java](http://rethinkdb.com/docs/guide/java/)
 * Start RethinkDB using `rethinkdb` command and hit `http://localhost:8080/`
-* Create `playing_rethinkdb` database and table `r_employees` with default configuration
+* Create `play_rethinkdb` database and table `r_employees` with default configuration
 
 ##### Usage of RethinkDB Java driver
 You can use the drivers from Java like this:
